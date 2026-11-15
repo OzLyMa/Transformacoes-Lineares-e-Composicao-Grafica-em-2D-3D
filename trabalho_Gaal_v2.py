@@ -85,7 +85,5 @@ def main():
     plt.tight_layout()
     plt.show()
 
-
-# Executa a função principal
 if __name__ == '__main__':
     main()
