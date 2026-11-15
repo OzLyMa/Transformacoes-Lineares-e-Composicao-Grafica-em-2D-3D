@@ -18,6 +18,34 @@ def cisalhamento_vertical(vertices, k):
     vertices_trans = m_composta @ vertices
     return vertices_trans
 
+def rotacao(vertices, theta_graus):
+    theta = np.radians(theta_graus)
+    c, s = np.cos(theta), np.sin(theta)
+
+    matriz = np.array([
+        [c, -s],
+        [s,  c]
+    ])
+    return matriz @ vertices
+
+def escala(vertices, sx, sy):
+    matriz = np.array([
+        [sx, 0],
+        [0, sy]
+    ])
+    return matriz @ vertices
+
+def translacao(vertices, tx, ty):
+    matriz = np.array([
+        [1, 0, tx],
+        [0, 1, ty],
+        [0, 0,  1]
+    ])
+    vertices_h = np.vstack((
+        vertices,
+        np.ones((1, vertices.shape[1]))
+    ))
+    return (matriz @ vertices_h)[:2, :]
 
 def main():
     print('Digite as Coordenadas da seu quadrilátero:')
@@ -32,7 +60,7 @@ def main():
 
     vertices = np.array([[x_one, y_one], [x_two, y_two], [x_three, y_three], [x_four, y_four]]).T
 
-    print('Você deseja fazer qual operação?\n1.Cisalhamento Horizontal\n2.Cisalhamento Vertical')
+    print('Você deseja fazer qual operação?\n1.Cisalhamento Horizontal\n2.Cisalhamento Vertical\n3.Rotação\n4.Escala\n5.Translação')
     cod = int(input())
     match cod:
         case 1:
@@ -41,9 +69,20 @@ def main():
         case 2:
             k = float(input('Digite o fator de cisalhamento (em porcentagem): '))
             matriz_transformada = cisalhamento_vertical(vertices, (k / 100))
+        case 3:
+            angulo = float(input('Digite o ângulo de rotação em graus: '))
+            matriz_transformada = rotacao(vertices, angulo)
+        case 4:
+            sx = float(input('Digite a escala no eixo X (em porcentagem): '))
+            sy = float(input('Digite a escala no eixo Y (em porcentagem): '))
+            matriz_transformada = escala(vertices, sx / 100, sy / 100)
+        case 5:
+            tx = float(input('Digite o deslocamento em X: '))
+            ty = float(input('Digite o deslocamento em Y: '))
+            matriz_transformada = translacao(vertices, tx, ty)
         case _:
             print('Valor invalido')
-
+            return
 
     figura_trans = matriz_transformada[:2, :].T
     figura_inicial = vertices[:2, :].T
