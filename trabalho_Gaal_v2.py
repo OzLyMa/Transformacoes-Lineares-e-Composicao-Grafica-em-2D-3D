@@ -148,36 +148,46 @@ def executar_3d():
         [x_seven, y_seven, z_seven],
         [x_eight, y_eight, z_eight]
     ]).T
+    matriz_transformada = vertices.copy()
 
-    print('Qual operação 3D você deseja fazer?\n1.Cisalhamento\n2.Rotação\n3.Escala\n4.Translação')
-    cod_3d = int(input())
-    match cod_3d:
-        case 1:
-            kxy = float(input('Digite o fator de cisalhamento X em Y (em porcentagem): ')) / 100
-            kxz = float(input('Digite o fator de cisalhamento X em Z (em porcentagem): ')) / 100
-            kyx = float(input('Digite o fator de cisalhamento Y em X (em porcentagem): ')) / 100
-            kyz = float(input('Digite o fator de cisalhamento Y em Z (em porcentagem): ')) / 100
-            kzx = float(input('Digite o fator de cisalhamento Z em X (em porcentagem): ')) / 100
-            kzy = float(input('Digite o fator de cisalhamento Z em Y (em porcentagem): ')) / 100
-            matriz_transformada = cisalhamento_3d(vertices, kxy, kxz, kyx, kyz, kzx, kzy)
-        case 2:
-            eixo = input('Digite o eixo de rotação (x, y ou z): ').strip()
-            angulo = float(input('Digite o ângulo de rotação em graus: '))
-            matriz_transformada = rotacao_3d(vertices, angulo, eixo)
-        case 3:
-            sx = float(input('Digite a escala no eixo X (em porcentagem): '))
-            sy = float(input('Digite a escala no eixo Y (em porcentagem): '))
-            sz = float(input('Digite a escala no eixo Z (em porcentagem): '))
-            matriz_transformada = escala_3d(vertices, sx / 100, sy / 100, sz / 100)
-        case 4:
-            tx = float(input('Digite o deslocamento em X: '))
-            ty = float(input('Digite o deslocamento em Y: '))
-            tz = float(input('Digite o deslocamento em Z: '))
-            matriz_transformada = translacao_3d(vertices, tx, ty, tz)
-        case _:
-            print('Valor invalido')
-            return
+    while True:
+        print('Qual operação 3D você deseja fazer?\n1.Cisalhamento\n2.Rotação\n3.Escala\n4.Translação\n0.Finalizar')
+        cod_3d = int(input())
 
+        match cod_3d:
+            case 0:
+                break
+
+            case 1:
+                kxy = float(input('Digite o fator de cisalhamento X em Y (em porcentagem): ')) / 100
+                kxz = float(input('Digite o fator de cisalhamento X em Z (em porcentagem): ')) / 100
+                kyx = float(input('Digite o fator de cisalhamento Y em X (em porcentagem): ')) / 100
+                kyz = float(input('Digite o fator de cisalhamento Y em Z (em porcentagem): ')) / 100
+                kzx = float(input('Digite o fator de cisalhamento Z em X (em porcentagem): ')) / 100
+                kzy = float(input('Digite o fator de cisalhamento Z em Y (em porcentagem): ')) / 100
+                matriz_transformada = cisalhamento_3d(matriz_transformada, kxy, kxz, kyx, kyz, kzx, kzy)
+
+            case 2:
+                eixo = input('Digite o eixo de rotação (x, y ou z): ').strip()
+                angulo = float(input('Digite o ângulo de rotação em graus: '))
+                matriz_transformada = rotacao_3d(matriz_transformada, angulo, eixo)
+
+            case 3:
+                sx = float(input('Digite a escala no eixo X (em porcentagem): '))
+                sy = float(input('Digite a escala no eixo Y (em porcentagem): '))
+                sz = float(input('Digite a escala no eixo Z (em porcentagem): '))
+                matriz_transformada = escala_3d(matriz_transformada, sx / 100, sy / 100, sz / 100)
+
+            case 4:
+                tx = float(input('Digite o deslocamento em X: '))
+                ty = float(input('Digite o deslocamento em Y: '))
+                tz = float(input('Digite o deslocamento em Z: '))
+                matriz_transformada = translacao_3d(matriz_transformada, tx, ty, tz)
+
+            case _:
+                print('Valor invalido')
+                continue
+                
     figura_trans = matriz_transformada[:3, :].T
     figura_inicial = vertices[:3, :].T
 
@@ -229,34 +239,47 @@ def main():
     y_four = float(input('Y4: '))
 
     vertices = np.array([[x_one, y_one], [x_two, y_two], [x_three, y_three], [x_four, y_four]]).T
+    
+    matriz_transformada = vertices.copy()
 
-    print('Você deseja fazer qual operação?\n1.Cisalhamento Horizontal\n2.Cisalhamento Vertical\n3.Rotação\n4.Escala\n5.Translação\n6.Operações em 3D')
-    cod = int(input())
-    match cod:
-        case 1:
-            k = float(input('Digite o fator de cisalhamento (em porcentagem): '))
-            matriz_transformada = cisalhamento_horizontal(vertices, (k / 100))
-        case 2:
-            k = float(input('Digite o fator de cisalhamento (em porcentagem): '))
-            matriz_transformada = cisalhamento_vertical(vertices, (k / 100))
-        case 3:
-            angulo = float(input('Digite o ângulo de rotação em graus: '))
-            matriz_transformada = rotacao(vertices, angulo)
-        case 4:
-            sx = float(input('Digite a escala no eixo X (em porcentagem): '))
-            sy = float(input('Digite a escala no eixo Y (em porcentagem): '))
-            matriz_transformada = escala(vertices, sx / 100, sy / 100)
-        case 5:
-            tx = float(input('Digite o deslocamento em X: '))
-            ty = float(input('Digite o deslocamento em Y: '))
-            matriz_transformada = translacao(vertices, tx, ty)
-        case 6:
-            executar_3d()
-            return
-        case _:
-            print('Valor invalido')
-            return
+    while True:
+        print('Você deseja fazer qual operação?\n1.Cisalhamento Horizontal\n2.Cisalhamento Vertical\n3.Rotação\n4.Escala\n5.Translação\n6.Operações em 3D\n0.Finalizar')        
+        
+        cod = int(input())
 
+        match cod:
+            case 0:
+                break
+
+            case 1:
+                k = float(input('Digite o fator de cisalhamento (em porcentagem): '))
+                matriz_transformada = cisalhamento_horizontal(matriz_transformada, (k / 100))
+
+            case 2:
+                k = float(input('Digite o fator de cisalhamento (em porcentagem): '))
+                matriz_transformada = cisalhamento_vertical(matriz_transformada, (k / 100))
+
+            case 3:
+                angulo = float(input('Digite o ângulo de rotação em graus: '))
+                matriz_transformada = rotacao(matriz_transformada, angulo)
+
+            case 4:
+                sx = float(input('Digite a escala no eixo X (em porcentagem): '))
+                sy = float(input('Digite a escala no eixo Y (em porcentagem): '))
+                matriz_transformada = escala(matriz_transformada, sx / 100, sy / 100)
+
+            case 5:
+                tx = float(input('Digite o deslocamento em X: '))
+                ty = float(input('Digite o deslocamento em Y: '))
+                matriz_transformada = translacao(matriz_transformada, tx, ty)
+
+            case 6:
+                executar_3d()
+                return
+        
+            case _:
+                print('Valor invalido')
+                continue
     figura_trans = matriz_transformada[:2, :].T
     figura_inicial = vertices[:2, :].T
 
